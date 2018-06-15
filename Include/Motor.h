@@ -1,24 +1,27 @@
 #ifndef _MOTOR_H
 #define _MOTOR_H
 
+
+#include "Delay.h"
 #include "Utilities.h"
 #include "HardwareInit.h"
-#include "Delay.h"
+#include <vector>
+
 
 class Motor
 {
-	private:
+	public:
 		int speed;
 		MotorData Motor_Data;
 	
-	public:
+		Motor(){};
 		Motor(int Motornum);
-		//void Calibrate();	
 		void Go_To_Angle();
 		void Set_Speed(int Value);
 		void Get_Angle();
-		void Move_Step();
-		~Motor(){};
+		void Move_Step(int,float);
+		~Motor();
 };
+
 
 #endif

@@ -9,29 +9,28 @@ class RoutineInterface
 {
 	public:
 		std::vector<Phase> Phases;			//Phase
-		virtual void Perform()=0;
-		virtual void Pause()=0;
-		virtual void Stop()=0;
-		virtual~RoutineInterface(){};
+		virtual void PerformRoutine();
+		virtual void Pause();
+		virtual void Stop();
+		virtual void LoadRoutine()=0;
+		virtual~RoutineInterface();
 };
 
 class CalibrationRoutine : public RoutineInterface
 {
 	public:
-		CalibrationRoutine(){};
-		virtual void Perform(void);
-		virtual void Pause(void);
-		virtual void Stop(void);
+		CalibrationRoutine();
+		virtual void LoadRoutine();
+		virtual void Pause(void){};
 		virtual ~CalibrationRoutine();
 };
 
-class StopRoutine : public RoutineInterface
+class GateRoutine : public RoutineInterface
 {
 	public:
-		StopRoutine();
-		virtual void Perform(void);
-		virtual void Pause(void);
-		virtual void Stop(void);
+		GateRoutine();
+		virtual void LoadRoutine();
+		
 };
 
 

@@ -1,24 +1,45 @@
 #ifndef _JOINT_H
 #define _JOINT_H
 
-#include "Trajectory.h"
+#include "Motor.h"
+
+typedef enum{Right_Hip_Motor,Right_Knee_Motor,Right_Ankle_Motor, Left_Hip_Motor,Left_Knee_Motor,Left_Ankle_Motor}Joint_Motor_Id;
 
 class JointInterface
 {
-	private:
-		TrajectoryInterface* Trajectory;
-		//motor
 	public:
-		virtual void Perform(void)=0;
+		Motor_Rotation Contraction;
+		Motor Joint_Motor;
+		virtual void Perform(float,float);
+		virtual int GetMotorPulses(float)=0;
 		virtual ~JointInterface(){};
 
 };
 
-class Hip : public JointInterface
+class Hip_Joint: public JointInterface
 {
 	public:
-		Hip();
-		virtual void Perform(void);
+		Motor_Rotation Contraction;
+		Hip_Joint(Joint_Motor_Id);
+		virtual int GetMotorPulses(float);
+
+};
+
+class Knee_Joint: public JointInterface
+{
+	public:
+		Motor_Rotation Contraction;
+		Knee_Joint(Joint_Motor_Id);
+		virtual int GetMotorPulses(float);
+
+};
+
+class Ankle_Joint: public JointInterface
+{
+	public:
+		Motor_Rotation Contraction;
+		Ankle_Joint(Joint_Motor_Id);
+		virtual int GetMotorPulses(float);
 
 };
 

@@ -6,7 +6,7 @@ extern SerialUSART2 usart;
 UsartUser::UsartUser()
 {
 	osStatus status = osMutexWait(mid_serial, osWaitForever);
-	if(status == osOK)	usart.printf("\n		User created");	
+	if(status == osOK)	usart.printf("\n	User created");	
 	osMutexRelease(mid_serial);
 	//this->serial = SerialUSART2(9600);
 }

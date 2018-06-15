@@ -6,13 +6,14 @@
 
 class Robot	 // En ingles 
 {
-	private:
-		StatusDataType 			robot_status;
-		RoutineInterface* 	routine;				//rutina
 	public:
+		StatusDataType 			robot_status;
+		RoutineInterface* 	routine;			
 		UserInterface*			user;
 		Robot();
-		void Start(void);
+		void Set_Routine(RoutineInterface*);
+		void Delete_Routine();
+		~Robot();
 };
 
 

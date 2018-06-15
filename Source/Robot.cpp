@@ -1,5 +1,6 @@
 #include "Robot.h"
 #include "cmsis_os.h"
+
 extern SerialUSART2 usart;
 extern osMutexId mid_serial;
 
@@ -10,10 +11,22 @@ Robot::Robot()
 	osMutexRelease(mid_serial);
 	
 	this->user = new UsartUser();
+	this->routine=NULL;
 }
 
-
-void Robot::Start(void)
+void Robot::Set_Routine(RoutineInterface* Routine)
 {
 	
+	this->routine=Routine;
+}
+	
+void Robot::Delete_Routine()
+{
+		delete(this->routine);
+		this->routine=NULL;
+}
+
+Robot::~Robot()
+{
+	usart.printf("\n\n	Robot deleted");	
 }

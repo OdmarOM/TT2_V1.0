@@ -1,18 +1,17 @@
 #ifndef _PHASE_H
 #define _PHASE_H
 
-#include "Leg.h"
+#include "Trajectory.h"
+
 
 class Phase
 {
 	private:
-		//Leg 				Right_Leg,Left_Leg;// leg
-		int x;
+		std::vector<TrajectoryInterface*> trajectories;
 	public:
-		 void Perform(void);
-		 Phase();
-		 Phase(const Phase &cpy){x=0;};
-		~Phase();
+		void PerformPhase();
+		void InsertTrayectory(TrajectoryInterface* trayectory);
+		void FreeTrayectories(void);
 };
 
 

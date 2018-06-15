@@ -7,7 +7,7 @@
 //#include "retarget_stm32f3.h"
 
 typedef enum{ok, error}Status;
-typedef enum{not_a_command=-1, calibration=1, home, anatomic, pause, stop}commandMapEnumType;
+typedef enum{not_a_command=-1, calibration=1, gate, pause, stop,start}commandMapEnumType;
 /*
 Estructura de datos de estado hacia la interfaz
 */
@@ -27,10 +27,10 @@ typedef struct
 const CommandMapType CommandMap[15] =
 { 
 	{1,'c'},		//calibration
-	{2,'h'},		//home
-	{3,'a'},		//anatomic
-	{4,'p'},
-	{5,'s'},
+	{2,'g'},		//home
+	{3,'p'},		//anatomic
+	{4,'s'},
+	{5,'v'},
 };
 
 class UserInterface

@@ -1,32 +1,67 @@
 #ifndef _TRAJECTORY_H
 #define _TRAJECTORY_H
 
-#include <vector>
+#include "Joint.h"
 
 class TrajectoryInterface
 {
 	public:
-		float* Position_Vector;
-		int StartPoint;
-	
-		virtual double Forward()=0;
-		virtual double Backward()=0;
-		virtual void 	 SetStartPoint(int StartPoint)=0;
+		JointInterface* Joint;
+		
+		int StartPoint,Min_Trajectory_Point,Max_Trajectory_Point,Trajectory_Resolution;
+		virtual void 		Perform_Trajectory(void)=0;
+		virtual void 		SetStartPoint(int StartPoint);
+		virtual float		GetTrajectoryAngle(float)=0;
+		virtual int 		GetTrajectorySpeed(float)=0;
 		virtual ~TrajectoryInterface(){};
 
 };
 
-class Hip_Gate : public TrajectoryInterface
-{
-	public:	
-		Hip_Gate();
-			virtual double Forward(void);
-		virtual double Backward(void);
-		virtual void 	 SetStartPoint(int StartPoint);
+class Home_Trajectory: public TrajectoryInterface
+{	
+public:	
+		Home_Trajectory();
+			virtual void 		Perform_Trajectory(void);
+			virtual float		GetTrajectoryAngle(float);
+			virtual int 		GetTrajectorySpeed(float);
+			virtual ~Home_Trajectory();
+	
 
 };
 
+class Anatomic_Trajectory: public TrajectoryInterface
+{	
+public:	
+		Anatomic_Trajectory();
+			virtual void		Perform_Trajectory(void);
+			virtual float		GetTrajectoryAngle(float){return 0;};
+			virtual int 		GetTrajectorySpeed(float){return 0;};
+			virtual ~Anatomic_Trajectory();
+	
 
+};
+
+class Null_Trajectory : public TrajectoryInterface
+{
+	public:	
+		Null_Trajectory();
+			virtual void 		Perform_Trajectory(void);
+			virtual float		GetTrajectoryAngle(float){return 0;};
+			virtual int 		GetTrajectorySpeed(float){return 0;};
+			virtual ~Null_Trajectory();
+
+};
+
+class Hip_Gate_Trajectory : public TrajectoryInterface
+{
+	public:	
+		Hip_Gate_Trajectory();
+			virtual void		Perform_Trajectory(void);
+			virtual float		GetTrajectoryAngle(float){return 0;};
+			virtual int 		GetTrajectorySpeed(float){return 0;};
+			virtual ~Hip_Gate_Trajectory();
+
+};
 
 #endif
 

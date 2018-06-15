@@ -4,7 +4,7 @@
  *      *** Do not modify ! ***
  *
  * Project: 'Ramh' 
- * Target:  'Target 1' 
+ * Target:  'Target 2' 
  */
 
 #ifndef RTE_COMPONENTS_H
@@ -14,14 +14,10 @@
 /*
  * Define the Device Header File: 
  */
-#define CMSIS_device_header "stm32f10x.h"
+#define CMSIS_device_header "stm32f3xx.h"
 
 #define RTE_CMSIS_RTOS                  /* CMSIS-RTOS */
         #define RTE_CMSIS_RTOS_RTX              /* CMSIS-RTOS Keil RTX */
-#define RTE_DEVICE_STDPERIPH_FRAMEWORK
-#define RTE_DEVICE_STDPERIPH_GPIO
-#define RTE_DEVICE_STDPERIPH_RCC
-#define RTE_DEVICE_STDPERIPH_TIM
-#define RTE_DEVICE_STDPERIPH_USART
+#define RTE_DEVICE_STARTUP_STM32F3XX    /* Device Startup for STM32F3 */
 
 #endif /* RTE_COMPONENTS_H */
