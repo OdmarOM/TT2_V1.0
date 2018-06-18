@@ -10,7 +10,8 @@ class JointInterface
 	public:
 		Motor_Rotation Contraction;
 		Motor Joint_Motor;
-		virtual void Perform(float,float);
+		virtual void SetAbsolutePosition(float);
+		virtual void SetRelativePosition(float);
 		virtual int GetMotorPulses(float)=0;
 		virtual ~JointInterface(){};
 

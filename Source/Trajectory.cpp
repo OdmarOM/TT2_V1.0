@@ -30,7 +30,7 @@ Home_Trajectory::Home_Trajectory()
 }
 
 
-void Home_Trajectory::Perform_Trajectory()
+void Home_Trajectory::Perform_Trajectory(JointInterface* Joint)
 {	
 	/*
 	float dt=(this->Max_Trajectory_Point-this->Min_Trajectory_Point)/this->Trajectory_Resolution;
@@ -75,7 +75,7 @@ int Home_Trajectory::GetTrajectorySpeed(float x)
 
 Home_Trajectory::~Home_Trajectory()
 {
-	delete(this->Joint);
+	
 	usart.puts("\n					Home Trajectory Deleted");
 }
 
@@ -85,7 +85,7 @@ Anatomic_Trajectory::Anatomic_Trajectory()
 	usart.puts("\n					Anatomic Trajectory Created");
 }
 
-void Anatomic_Trajectory::Perform_Trajectory()
+void Anatomic_Trajectory::Perform_Trajectory(JointInterface* Joint )
 {	int i=0;
 	while(i<3)
 	{
@@ -96,7 +96,7 @@ void Anatomic_Trajectory::Perform_Trajectory()
 
 Anatomic_Trajectory::~Anatomic_Trajectory()
 {
-	delete(this->Joint);
+	
 	usart.puts("\n					Anatomic Trajectory Deleted");
 }
 
@@ -111,7 +111,7 @@ Null_Trajectory::~Null_Trajectory()
 	usart.puts("\n					Null Trajectory Deleted");
 }
 
-void Null_Trajectory::Perform_Trajectory()
+void Null_Trajectory::Perform_Trajectory(JointInterface* Joint)
 {
 	usart.printf("\n				Performing null trajectory");
 }
@@ -129,7 +129,7 @@ Hip_Gate_Trajectory::~Hip_Gate_Trajectory()
 	usart.printf("\n					Hip Trajectory Deleted");
 }
 
-void Hip_Gate_Trajectory::Perform_Trajectory()
+void Hip_Gate_Trajectory::Perform_Trajectory(JointInterface* Joint)
 {
 		for(int i=0; i<5;i++)
 		{

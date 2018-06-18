@@ -5,35 +5,32 @@ extern osMutexId mid_serial;
 
 Linker::Linker()
 {
-	this->Previous_Command=0;
+	int Sampling=650;
+	this->Dt_us=1000000/Sampling;
+	
 	this->Current_Command=0;
 	this->Speed=0;
-	this->Current_Routine_Command=0;
+	this->Current_State=0;
 	
 	for(int i=0;i<6;i++){
 	this->Current_Position[i]=0;
-	this->Future_Position[i]=0;
 	}
 	this->Pause=true;
-	this->Routine=NULL;
 }
 
-void 	Linker::Set_Current_Routine_Command(int Command)
+void 	Linker::Set_Current_State(int Command)
 {
-	this->Current_Routine_Command=Command;
+	this->Current_State=Command;
 }
 
-int Linker::Get_Current_Routine_Command()
+int Linker::Get_Current_State()
 {
-	return(this->Current_Routine_Command);
+	return(this->Current_State);
 }
 
 void 	Linker::Set_Current_Command(int Command)
 {
-
-			this->Previous_Command=this->Current_Command;
 		this->Current_Command=Command;
-	
 }
 
 int 	Linker::Get_Current_Command()
@@ -42,40 +39,28 @@ int 	Linker::Get_Current_Command()
 	return(this->Current_Command);
 }
 
-int 	Linker::Get_Previous_Command()
-{
 		
-	return(this->Previous_Command);
-}
-		
-void	Linker::Set_Speed(int speed)
+void	Linker::Set_Speed(float speed)
 {
-	this->Speed=speed;
+	if(speed>1)	this->Speed=speed;
+	else speed=1;
 }
 
-int	Linker::Get_Speed()
+float	Linker::Get_Speed()
 {
 	return(this->Speed);
 }
 
-void 	Linker::Set_Current_Position(float Position[])
+void 	Linker::Set_Current_Position(float Position,int i)
 {
-	for(int i=0;i<6;i++){
-		this->Current_Position[i]=Position[i];
-	}
+		this->Current_Position[i]=Position;
 }
 
-float*	Linker::Get_Current_Position()
+float	Linker::Get_Current_Position(int i)
 {
-	return(this->Current_Position);
+	return(this->Current_Position[i]);
 }
 
-void 	Linker::Set_Future_Position(float Position[])
-{
-	for(int i=0;i<6;i++){
-			this->Future_Position[i]=Position[i];
-		}
-}
 
 void	Linker::Pause_Routine(void)
 {

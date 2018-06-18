@@ -20,6 +20,7 @@
 .\objects\trajectory.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\misc.h
 .\objects\trajectory.o: .\Include\Utilities.h
 .\objects\trajectory.o: .\Include\HardwareInit.h
+.\objects\trajectory.o: .\Include\Linker.h
 .\objects\trajectory.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\vector
 .\objects\trajectory.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits
 .\objects\trajectory.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\rw/_defs.h

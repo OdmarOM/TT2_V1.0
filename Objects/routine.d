@@ -22,6 +22,7 @@
 .\objects\routine.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\misc.h
 .\objects\routine.o: .\Include\Utilities.h
 .\objects\routine.o: .\Include\HardwareInit.h
+.\objects\routine.o: .\Include\Linker.h
 .\objects\routine.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\vector
 .\objects\routine.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits
 .\objects\routine.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\rw/_defs.h
@@ -52,10 +53,4 @@
 .\objects\routine.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\routine.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\routine.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\routine.o: .\Include\Linker.h
-.\objects\routine.o: .\Include\Robot.h
-.\objects\routine.o: .\Include\User.h
-.\objects\routine.o: .\Include\OsObjects.h
-.\objects\routine.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\RTOS\RTX\INC\cmsis_os.h
-.\objects\routine.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\routine.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\vector.CC

@@ -66,7 +66,7 @@ int InitThreads(void)
 
 void RobotThread(void const *argument)
 {	
-	Robot exo;
+	//Robot exo;
 	osSignalWait(0x01, osWaitForever);
 	
 	osStatus status = osMutexWait(mid_serial, osWaitForever);
@@ -76,7 +76,7 @@ void RobotThread(void const *argument)
 	while(1)
 	{
 		
-		Linker.Set_Current_Command(exo.user->GetCommand());
+	/*	Linker.Set_Current_Command(exo.user->GetCommand());
 		
 		if(Linker.Get_Current_Command()==not_a_command)
 		{
@@ -127,17 +127,17 @@ void RobotThread(void const *argument)
 		}
 		else
 		{}
-		
+		*/
 	}
 }
 
 
 
 void Routine_Thread (void const *argument){
-	int cycles;
+
 	while(1){
 		osSignalWait(0x01,osWaitForever);
-		
+		/*
 		if(Linker.Get_Current_Routine_Command()==calibration)cycles=1;
 		else cycles=5;
 			
@@ -148,7 +148,7 @@ void Routine_Thread (void const *argument){
 		}
 			Linker.Routine->Stop();
 			Linker.Set_Current_Routine_Command(0);
-			Linker.Routine=NULL;
+			Linker.Routine=NULL;*/
 			
 	}
 }

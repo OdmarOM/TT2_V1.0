@@ -32,6 +32,7 @@
 .\objects\main.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\misc.h
 .\objects\main.o: .\Include\Utilities.h
 .\objects\main.o: .\Include\HardwareInit.h
+.\objects\main.o: .\Include\Linker.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\vector
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\rw/_defs.h

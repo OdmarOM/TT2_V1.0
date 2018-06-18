@@ -1,6 +1,5 @@
 #include "Routine.h"
 #include "Usart.h"
-#include "Linker.h"
 
 extern SerialUSART2 usart;
 extern Linker Linker;

@@ -21,6 +21,7 @@
 .\objects\phase.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\misc.h
 .\objects\phase.o: .\Include\Utilities.h
 .\objects\phase.o: .\Include\HardwareInit.h
+.\objects\phase.o: .\Include\Linker.h
 .\objects\phase.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\vector
 .\objects\phase.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits
 .\objects\phase.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\rw/_defs.h
@@ -53,9 +54,4 @@
 .\objects\phase.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\phase.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\RTOS\RTX\INC\cmsis_os.h
 .\objects\phase.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-.\objects\phase.o: .\Include\linker.h
-.\objects\phase.o: .\Include\Robot.h
-.\objects\phase.o: .\Include\User.h
-.\objects\phase.o: .\Include\OsObjects.h
-.\objects\phase.o: .\Include\Routine.h
 .\objects\phase.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\vector.CC

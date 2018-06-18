@@ -31,6 +31,7 @@
 .\objects\osobjects.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\misc.h
 .\objects\osobjects.o: .\Include\Utilities.h
 .\objects\osobjects.o: .\Include\HardwareInit.h
+.\objects\osobjects.o: .\Include\Linker.h
 .\objects\osobjects.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\vector
 .\objects\osobjects.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits
 .\objects\osobjects.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\rw/_defs.h
@@ -56,5 +57,4 @@
 .\objects\osobjects.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\rw/_iterator.h
 .\objects\osobjects.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\rw/_dispatch.h
 .\objects\osobjects.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\rw/_error.h
-.\objects\osobjects.o: .\Include\Linker.h
 .\objects\osobjects.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\vector.CC
