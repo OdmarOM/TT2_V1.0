@@ -19,7 +19,6 @@
 .\objects\phase.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_tim.h
 .\objects\phase.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_usart.h
 .\objects\phase.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\misc.h
-.\objects\phase.o: .\Include\Utilities.h
 .\objects\phase.o: .\Include\HardwareInit.h
 .\objects\phase.o: .\Include\Linker.h
 .\objects\phase.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\vector

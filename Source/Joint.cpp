@@ -7,7 +7,7 @@ extern Linker Linker;
 
 void JointInterface::SetRelativePosition(float Angle)
 {	
-	int Number_of_Pulses=this->GetMotorPulses(Angle);
+	int Number_of_Pulses=this->GetMotorPulses(abs(Angle));
 	int time_span_of_pulse=15; //in microseconds;
 	
 	int delayus=((Linker.Dt_us-Number_of_Pulses*time_span_of_pulse)/Number_of_Pulses)*Linker.Get_Speed(); // 15 
@@ -25,13 +25,13 @@ void JointInterface::SetRelativePosition(float Angle)
 	for(int i=0;i<=Number_of_Pulses;i++)
 	{
 	if(Angle<0) 
-		this->Joint_Motor.Move_Step(this->Contraction);
-	else
 		this->Joint_Motor.Move_Step(!this->Contraction);
-	
-		//DelayUs(delayus);
+	else
+		this->Joint_Motor.Move_Step(this->Contraction);
+		for(int i=0; i<120;i++){}
 	}
-	usart.printf("%i",this->Joint_Motor.Motor_Data.Id);
+	Linker.Set_Current_Position(Linker.Current_Position[this->Joint_Motor.Motor_Data.Id]+Angle,this->Joint_Motor.Motor_Data.Id);
+	usart.printf("%i",Number_of_Pulses);
 }
 
 void JointInterface::SetAbsolutePosition(float Angle)
@@ -82,7 +82,7 @@ int Knee_Joint::GetMotorPulses(float Angle)
 		F_A =  0.0002*pow(Initial_Angle+Angle,3) - 0.0141*pow(Initial_Angle+Angle,2) + 1.6777*(Initial_Angle+Angle) - 0.0831;
 		Motor_Pulses=((F_A-I_A)/5)*1250;
 
-	return(Motor_Pulses);
+	return(abs(Motor_Pulses));
 }
 
 //**************************************************
@@ -102,6 +102,6 @@ int Ankle_Joint::GetMotorPulses(float Angle)
 		F_A =	-1.1205*(Initial_Angle+Angle) + 138.33;
 		Motor_Pulses=((F_A-I_A)/5)*1250;
 
-	return(Motor_Pulses);
+	return(abs(Motor_Pulses));
 }
 

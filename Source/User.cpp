@@ -15,9 +15,10 @@ int UsartUser::GetCommand()
 {	
 	char command;
 	
-	osStatus status = osMutexWait(mid_serial, osWaitForever);
-	if(status == osOK)	command = usart.getChar();
-	osMutexRelease(mid_serial);
+	//osStatus status = osMutexWait(mid_serial, osWaitForever);
+	//if(status == osOK)	
+		command = usart.getChar();
+	//osMutexRelease(mid_serial);
 	
 	for(int i=0; i<=sizeof(CommandMap); i++)
 	{

@@ -19,16 +19,17 @@ Motor::Motor(int Motornum)
 
 void Motor::Move_Step(int Type)
 {
-	/*if(Type==Clockwise)	GPIO_ResetBits(Motor_Data.Dir.Puerto,Motor_Data.Dir.Pin);
-	else							GPIO_SetBits(Motor_Data.Dir.Puerto,Motor_Data.Dir.Pin);
+	if(Type==Clockwise)	{GPIO_ResetBits(Motor_Data.Dir.Puerto,Motor_Data.Dir.Pin);}
+	else								{GPIO_SetBits(Motor_Data.Dir.Puerto,Motor_Data.Dir.Pin);}
 	
 		for(int i=0; i<4;i++){
 		GPIO_SetBits(Motor_Data.Sig.Puerto,Motor_Data.Sig.Pin);
-		DelayUs(1);
+		for(int i=0; i<40;i++){}  
 		GPIO_ResetBits(Motor_Data.Sig.Puerto,Motor_Data.Sig.Pin);
-		DelayUs(1);
+		for(int i=0; i<40;i++){}
 		}
-		*/
+		//each for last 4100 ns fot a total of 8200 + 250ns of each sentence gives a total of
+		// 8750 ns , this value represents a value of aproximate 114 KHz
 }
 
 //**************************************************

@@ -3,7 +3,7 @@
 
 #include "Motor.h"
 
-typedef enum{Right_Hip_Motor,Right_Knee_Motor,Right_Ankle_Motor, Left_Hip_Motor,Left_Knee_Motor,Left_Ankle_Motor}Joint_Motor_Id;
+
 
 class JointInterface
 {

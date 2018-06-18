@@ -16,7 +16,6 @@
 .\objects\motor.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_tim.h
 .\objects\motor.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_usart.h
 .\objects\motor.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\misc.h
-.\objects\motor.o: .\Include\Utilities.h
 .\objects\motor.o: .\Include\HardwareInit.h
 .\objects\motor.o: .\Include\Linker.h
 .\objects\motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\vector
@@ -51,3 +50,4 @@
 .\objects\motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\motor.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\RTOS\RTX\INC\cmsis_os.h
 .\objects\motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\motor.o: .\Include\Utilities.h

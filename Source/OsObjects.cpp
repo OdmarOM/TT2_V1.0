@@ -2,9 +2,11 @@
 #include "Robot.h"
 #include "Linker.h"
 #include <vector>
+#include "Delay.h"
 
 extern SerialUSART2 usart;
 Linker Linker;
+
 
 std::vector<TrajectoryInterface*> Global_Trajectories;
 
@@ -67,16 +69,36 @@ int InitThreads(void)
 void RobotThread(void const *argument)
 {	
 	//Robot exo;
-	osSignalWait(0x01, osWaitForever);
 	
+	Hip_Joint Joint(Left_Hip_Motor);
 	osStatus status = osMutexWait(mid_serial, osWaitForever);
 	if(status == osOK)	usart.printf("\n		Robot started");
 	osMutexRelease(mid_serial);
-		
+	int val=50;
 	while(1)
 	{
 		
-	/*	Linker.Set_Current_Command(exo.user->GetCommand());
+		/*osSignalWait(0x01,osWaitForever);
+		
+		
+		for(int i=0;i<1250;i++){
+		Joint.Joint_Motor.Move_Step(1);
+		for(int i=0; i<120;i++){}
+		}*/
+		
+		osSignalWait(0x01,osWaitForever);
+		
+		Joint.SetAbsolutePosition(-20);
+		
+		osSignalWait(0x01,osWaitForever);
+		
+		Joint.SetAbsolutePosition(25);
+		
+		osSignalWait(0x01,osWaitForever);
+		
+		Joint.SetAbsolutePosition(0);
+				
+			/*	Linker.Set_Current_Command(exo.user->GetCommand());
 		
 		if(Linker.Get_Current_Command()==not_a_command)
 		{
