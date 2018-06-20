@@ -70,33 +70,21 @@ void RobotThread(void const *argument)
 {	
 	//Robot exo;
 	
-	Hip_Joint Joint(Left_Hip_Motor);
+	//JointInterface* Joint=new Hip_Joint(Left_Hip_Motor);
+	JointInterface* Joint=new Knee_Joint(Left_Hip_Motor);
+	Home_Trajectory home;
 	osStatus status = osMutexWait(mid_serial, osWaitForever);
 	if(status == osOK)	usart.printf("\n		Robot started");
 	osMutexRelease(mid_serial);
-	int val=50;
 	while(1)
 	{
-		
 		/*osSignalWait(0x01,osWaitForever);
-		
-		
-		for(int i=0;i<1250;i++){
-		Joint.Joint_Motor.Move_Step(1);
-		for(int i=0; i<120;i++){}
-		}*/
-		
+			GPIO_ResetBits(Config_motor[2].Sig.Puerto,Config_motor[2].Sig.Pin);*/
 		osSignalWait(0x01,osWaitForever);
 		
-		Joint.SetAbsolutePosition(-20);
-		
-		osSignalWait(0x01,osWaitForever);
-		
-		Joint.SetAbsolutePosition(25);
-		
-		osSignalWait(0x01,osWaitForever);
-		
-		Joint.SetAbsolutePosition(0);
+		home.Perform_Trajectory(Joint);
+		Joint->SetRelativePosition(5);
+		//Joint->SetAbsolutePosition(Joint->Anatomic_Position);
 				
 			/*	Linker.Set_Current_Command(exo.user->GetCommand());
 		

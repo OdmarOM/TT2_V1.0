@@ -11,18 +11,20 @@ class Linker
 		bool 	Pause;
 		bool 	Performing;
 		int 	Dt_us;
+		int 	Sampling;
 
 		Linker();
 		void		Set_Current_State(int);
 		int			Get_Current_State();
 		void 		Set_Current_Command(int);
 		int 		Get_Current_Command();
-		void		Set_Speed(float);
 		float		Get_Speed();
 		void 		Set_Current_Position(float,int);
 		float		Get_Current_Position(int);
 		void		Pause_Routine(void);
 		void		Start_Routine(void);
+		void		Increment_Speed(void);
+		void		Decrement_Speed(void);
 		bool		Is_Paused(void);
 };
 

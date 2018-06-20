@@ -5,11 +5,11 @@ extern osMutexId mid_serial;
 
 Linker::Linker()
 {
-	int Sampling=650;
+	this->Sampling=650;
 	this->Dt_us=1000000/Sampling;
 	
 	this->Current_Command=0;
-	this->Speed=0;
+	this->Speed=2;
 	this->Current_State=0;
 	
 	for(int i=0;i<6;i++){
@@ -37,13 +37,6 @@ int 	Linker::Get_Current_Command()
 {
 		
 	return(this->Current_Command);
-}
-
-		
-void	Linker::Set_Speed(float speed)
-{
-	if(speed>1)	this->Speed=speed;
-	else speed=1;
 }
 
 float	Linker::Get_Speed()
@@ -87,4 +80,26 @@ bool Linker::Is_Paused(void)
 	return(this->Pause);
 }
 
+void Linker::Increment_Speed()
+{
+	if(this->Speed>60)
+	{
+		this->Speed-=20;
+	}
+	else
+	{
+		this->Speed=60;
+	}
+}
 
+void Linker::Decrement_Speed()
+{
+	if(this->Speed<200)
+	{
+		this->Speed+=20;
+	}
+	else
+	{
+		this->Speed=200;
+	}
+}

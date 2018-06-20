@@ -32,24 +32,15 @@ Home_Trajectory::Home_Trajectory()
 
 void Home_Trajectory::Perform_Trajectory(JointInterface* Joint)
 {	
-	/*
-	float dt=(this->Max_Trajectory_Point-this->Min_Trajectory_Point)/this->Trajectory_Resolution;
-	Current_Angles[this->Joint->Joint_Motor.Motor_Data.Id]=this->GetTrajectoryAngle(StartPoint);
 	
-	//while(!(GPIO_ReadInputData(this->Joint->Joint_Motor.Motor_Data.LimCont.Puerto) & this->Joint->Joint_Motor.Motor_Data.LimCont.Pin)
 	//			|| !(GPIO_ReadInputData(this->Joint->Joint_Motor.Motor_Data.LimExt.Puerto) & this->Joint->Joint_Motor.Motor_Data.LimExt.Pin) )// Señal de los LimitSwitch
 		//^^^ Codigo de control de los limit switch
-	
-		for(int Increment=this->Min_Trajectory_Point+dt;Increment<=this->Max_Trajectory_Point;Increment=Increment+dt)
-		{
-				float	Next_Angle=this->GetTrajectoryAngle(StartPoint+Increment);
-				float AngleMovement=Next_Angle-Current_Angles[this->Joint->Joint_Motor.Motor_Data.Id];
-				float	Speed=this->GetTrajectorySpeed(StartPoint+Increment);
-				this->Joint->Perform(AngleMovement,Speed);
-				Current_Angles[this->Joint->Joint_Motor.Motor_Data.Id]=Next_Angle;
-			
-		}
-		*/
+	while(!GPIO_ReadInputDataBit(Config_motor[4].LimCont.Puerto,Config_motor[4].LimCont.Pin))
+	{
+		Joint->SetRelativePosition(-1);			
+	}
+	Joint->SetHome();
+		
 }
 
 float Home_Trajectory::GetTrajectoryAngle(float x)
