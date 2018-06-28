@@ -9,12 +9,15 @@ class JointInterface
 {
 	public:
 		int Anatomic_Position;
-		Motor_Rotation Contraction;
 		Motor Joint_Motor;
-		virtual void 	SetAbsolutePosition(float);
-		virtual void 	SetRelativePosition(float);
-		virtual void 	SetAbsolutePosition(float,int);
-		virtual void 	SetRelativePosition(float,int);
+		virtual void 	SetAbsolutePositionA_C(float);
+		virtual void 	SetRelativePositionA_C(float);
+		virtual void 	SetAbsolutePositionA_V(float);
+		virtual void 	SetRelativePositionA_V(float);
+		virtual void 	SetAbsolutePositionL_C(float);
+		virtual void 	SetRelativePositionL_C(float);
+		virtual void 	SetAbsolutePositionL_V(float);
+		virtual void 	SetRelativePositionL_V(float);
 		virtual int 	GetMotorPulses(float)=0;
 		virtual void 	SetHome(void)=0;
 		virtual ~JointInterface(){};
@@ -24,30 +27,30 @@ class JointInterface
 class Hip_Joint: public JointInterface
 {
 	public:
-		Motor_Rotation Contraction;
 		Hip_Joint(Joint_Motor_Id);
 		virtual void 	SetHome(void);
 		virtual int GetMotorPulses(float);
+		virtual ~Hip_Joint(){};
 
 };
 
 class Knee_Joint: public JointInterface
 {
 	public:
-		Motor_Rotation Contraction;
 		Knee_Joint(Joint_Motor_Id);
 		virtual void 	SetHome(void);
 		virtual int GetMotorPulses(float);
+		virtual ~Knee_Joint(){};
 
 };
 
 class Ankle_Joint: public JointInterface
 {
 	public:
-		Motor_Rotation Contraction;
 		Ankle_Joint(Joint_Motor_Id);
 		virtual void 	SetHome(void);
 		virtual int GetMotorPulses(float);
+		virtual ~Ankle_Joint(){};
 
 };
 

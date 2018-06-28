@@ -29,7 +29,7 @@ osThreadId Left_Ankle_Thread_Id;
 
 osThreadDef(RobotThread, osPriorityNormal, 1, 0);
 osThreadDef(Routine_Thread, osPriorityAboveNormal, 1, 0);
-osThreadDef(Phase_Thread, osPriorityHigh, 1, 0);
+osThreadDef(Phase_Thread, osPriorityAboveNormal, 1, 0);
 osThreadDef(Right_Hip_Thread, osPriorityNormal, 1, 0);
 osThreadDef(Right_Knee_Thread, osPriorityNormal, 1, 0);
 osThreadDef(Right_Ankle_Thread, osPriorityNormal, 1, 0);
@@ -68,23 +68,30 @@ int InitThreads(void)
 
 void RobotThread(void const *argument)
 {	
-	//Robot exo;
-	
-	//JointInterface* Joint=new Hip_Joint(Left_Hip_Motor);
-	JointInterface* Joint=new Knee_Joint(Left_Hip_Motor);
-	Home_Trajectory home;
-	osStatus status = osMutexWait(mid_serial, osWaitForever);
+	//Robot exo:
+	//	
+	/*osStatus status = osMutexWait(mid_serial, osWaitForever);
 	if(status == osOK)	usart.printf("\n		Robot started");
-	osMutexRelease(mid_serial);
+	osMutexRelease(mid_serial);*/
+	//JointInterface* Joint=new Knee_Joint(Right_Knee_Motor);
+	//Home_Trajectory home;
 	while(1)
 	{
-		/*osSignalWait(0x01,osWaitForever);
-			GPIO_ResetBits(Config_motor[2].Sig.Puerto,Config_motor[2].Sig.Pin);*/
 		osSignalWait(0x01,osWaitForever);
 		
-		home.Perform_Trajectory(Joint);
-		Joint->SetRelativePosition(5);
-		//Joint->SetAbsolutePosition(Joint->Anatomic_Position);
+		Global_Trajectories.push_back(new Null_Trajectory());
+		Global_Trajectories.push_back(new Null_Trajectory());
+		Global_Trajectories.push_back(new Home_Trajectory());
+		Global_Trajectories.push_back(new Home_Trajectory());
+		Global_Trajectories.push_back(new Home_Trajectory());
+		Global_Trajectories.push_back(new Home_Trajectory());
+		
+		osSignalSet(Phase_Thread_Id,0x01);
+		
+		/*osSignalWait(0x01,osWaitForever);	
+		//home.Perform_Trajectory(Joint);
+		Joint->SetRelativePositionA(-1);*/
+		
 				
 			/*	Linker.Set_Current_Command(exo.user->GetCommand());
 		
@@ -172,13 +179,13 @@ while(1)
 		
 		osSignalSet(Right_Hip_Thread_Id,0x01);
 		osSignalSet(Right_Knee_Thread_Id,0x01);		
-		osSignalSet(Right_Ankle_Thread_Id,0x01);
+		//osSignalSet(Right_Ankle_Thread_Id,0x01);
 		osSignalSet(Left_Hip_Thread_Id,0x01);
 		osSignalSet(Left_Knee_Thread_Id,0x01);
-		osSignalSet(Left_Ankle_Thread_Id,0x01);
+		//osSignalSet(Left_Ankle_Thread_Id,0x01);
 		
 		
-		for(int i=0;i<6;i++)
+		for(int i=0;i<4;i++)
 		{
 		osSignalWait(0x01,osWaitForever);
 		}
@@ -188,62 +195,63 @@ while(1)
 }
 
 void Right_Hip_Thread (void const *argument){
-	
+	JointInterface* Joint=new Hip_Joint(Right_Hip_Motor);
 	while(1){
 		osSignalWait(0x01,osWaitForever);
 		
-		//	Global_Trayectories[0]->Perform_Trajectory();
+			Global_Trajectories[Joint->Joint_Motor.Motor_Data.Id]->Perform_Trajectory(Joint);
 		osSignalSet(Phase_Thread_Id,0x01);
 	}
 }
 
 void Right_Knee_Thread (void const *argument){
-	
+	JointInterface* Joint=new Knee_Joint(Right_Knee_Motor);
 	while(1){
 		osSignalWait(0x01,osWaitForever);
 		
-		//	Global_Trayectories[1]->Perform_Trajectory();
+		Global_Trajectories[3]->Perform_Trajectory(Joint);
 		osSignalSet(Phase_Thread_Id,0x01);
 	}
 }
 
 void Right_Ankle_Thread (void const *argument){
-	
+	JointInterface* Joint=new Ankle_Joint(Right_Ankle_Motor);
 	while(1){
 		osSignalWait(0x01,osWaitForever);
 		
-		//	Global_Trayectories[2]->Perform_Trajectory();
+			Global_Trajectories[Joint->Joint_Motor.Motor_Data.Id]->Perform_Trajectory(Joint);
 		osSignalSet(Phase_Thread_Id,0x01);
 	}
 }
 
 
 void Left_Hip_Thread (void const *argument){
-	
+	JointInterface* Joint=new Hip_Joint(Left_Hip_Motor);
 	while(1){
 		osSignalWait(0x01,osWaitForever);
 		
-		//	Global_Trayectories[3]->Perform_Trajectory();
+		Global_Trajectories[Joint->Joint_Motor.Motor_Data.Id]->Perform_Trajectory(Joint);
+
 		osSignalSet(Phase_Thread_Id,0x01);
 	}
 }
 
 void Left_Knee_Thread (void const *argument){
-	
+	JointInterface* Joint=new Knee_Joint(Left_Knee_Motor);
 	while(1){
 		osSignalWait(0x01,osWaitForever);
 		
-		//	Global_Trayectories[4]->Perform_Trajectory();
+			Global_Trajectories[Joint->Joint_Motor.Motor_Data.Id]->Perform_Trajectory(Joint);
 		osSignalSet(Phase_Thread_Id,0x01);
 	}
 }
 
 void Left_Ankle_Thread (void const *argument){
-	
+	JointInterface* Joint=new Knee_Joint(Left_Ankle_Motor);
 	while(1){
 		osSignalWait(0x01,osWaitForever);
 		
-		//	Global_Trayectories[5]->Perform_Trajectory();
+		Global_Trajectories[Joint->Joint_Motor.Motor_Data.Id]->Perform_Trajectory(Joint);
 		osSignalSet(Phase_Thread_Id,0x01);
 	}
 }

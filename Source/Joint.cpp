@@ -5,49 +5,45 @@
 extern SerialUSART2 usart;
 extern Linker Linker;
 
-void JointInterface::SetRelativePosition(float Angle)
+void JointInterface::SetRelativePositionA_C(float Angle)
 {	
 	int Number_of_Pulses=this->GetMotorPulses(Angle);
-	
-	
 	
 	for(int i=0;i<=Number_of_Pulses;i++)
 	{
 	if(Angle<0) 
-		this->Joint_Motor.Move_Step(this->Contraction);
+		this->Joint_Motor.Move_Step(Clockwise);
 	else
-		this->Joint_Motor.Move_Step(!this->Contraction);
+		this->Joint_Motor.Move_Step(AntiClockwise);
 		for(int i=0; i<700;i++){} 
 	}
 	Linker.Set_Current_Position(Linker.Current_Position[this->Joint_Motor.Motor_Data.Id]+Angle,this->Joint_Motor.Motor_Data.Id);
 	//usart.printf("%i",Number_of_Pulses);
 }
 
-void JointInterface::SetAbsolutePosition(float Angle)
+void JointInterface::SetAbsolutePositionA_C(float Angle)
 {	
 	int Relative_Angle=Angle-Linker.Get_Current_Position(this->Joint_Motor.Motor_Data.Id);
-	this->SetRelativePosition(Relative_Angle);
+	this->SetRelativePositionA_C(Relative_Angle);
 }
 //*********************************************************
 
-void JointInterface::SetRelativePosition(float Angle,int Dt_us)
+void JointInterface::SetRelativePositionA_V(float Angle)
 {	
 	int Number_of_Pulses=this->GetMotorPulses(Angle);
 
 	float time_span_of_pulse=8.7; //in microseconds;
 	
-	float delayus=((Dt_us-Number_of_Pulses*time_span_of_pulse)/Number_of_Pulses)*100; 
+	float delayus=((Linker.Dt_us-Number_of_Pulses*time_span_of_pulse)/Number_of_Pulses)*100; 
 	//we muliply by 100 to get houndreds of nanoseconds beacouse thats what each iteration of the for last
 			
 	if(delayus<0)
 			{
 				Linker.Pause_Routine();
 				while(delayus<0)
-				{	Dt_us+=50;
-					delayus=((Dt_us-Number_of_Pulses*time_span_of_pulse)/Number_of_Pulses)*100; 
+				{	Linker.Dt_us+=50;
+					delayus=((Linker.Dt_us-Number_of_Pulses*time_span_of_pulse)/Number_of_Pulses)*100; 
 				}
-				Linker.Dt_us=Dt_us;
-				usart.printf("%i",Dt_us);
 				Linker.Start_Routine();
 			}
 			else
@@ -57,9 +53,9 @@ void JointInterface::SetRelativePosition(float Angle,int Dt_us)
 	for(int i=0;i<=Number_of_Pulses;i++)
 	{
 	if(Angle<0) 
-		this->Joint_Motor.Move_Step(!this->Contraction);
+		this->Joint_Motor.Move_Step(Clockwise);
 	else
-		this->Joint_Motor.Move_Step(this->Contraction);
+		this->Joint_Motor.Move_Step(AntiClockwise);
 		for(int i=0; i<delayus*Linker.Get_Speed();i++){} 
 	}
 	usart.printf("\n		%i",Number_of_Pulses);
@@ -67,16 +63,36 @@ void JointInterface::SetRelativePosition(float Angle,int Dt_us)
 	
 }
 
-void JointInterface::SetAbsolutePosition(float Angle,int Dt_us)
+void JointInterface::SetAbsolutePositionA_V(float Angle)
 {	
 	int Relative_Angle=Angle-Linker.Get_Current_Position(this->Joint_Motor.Motor_Data.Id);
-	this->SetRelativePosition(Relative_Angle,Dt_us);
+	this->SetRelativePositionA_V(Relative_Angle);
 }
 
+void JointInterface::SetRelativePositionL_C(float Distance)
+{
+
+}
+
+void JointInterface::SetAbsolutePositionL_C(float Distance)
+{
+
+}
+	
+void JointInterface::SetRelativePositionL_V(float Distance)
+{
+
+
+}
+
+void JointInterface::SetAbsolutePositionL_V(float Distance)
+{
+
+}
 //intervalo total / dt = speed
 //**************************************************
 
-Hip_Joint::Hip_Joint(Joint_Motor_Id Motor_Id) : Contraction(Clockwise)
+Hip_Joint::Hip_Joint(Joint_Motor_Id Motor_Id)
 {
 		usart.puts("\n					Hip Created");
 	
@@ -103,7 +119,7 @@ void Hip_Joint::SetHome()
 Linker.Set_Current_Position(-26,this->Joint_Motor.Motor_Data.Id);
 }
 //**************************************************
-Knee_Joint::Knee_Joint(Joint_Motor_Id Motor_Id):Contraction(Clockwise)
+Knee_Joint::Knee_Joint(Joint_Motor_Id Motor_Id)
 {
 			usart.puts("\n					Knee Created");
 	this->Joint_Motor=Motor(Motor_Id);
@@ -130,7 +146,7 @@ Linker.Set_Current_Position(0,this->Joint_Motor.Motor_Data.Id);
 }
 
 //**************************************************
-Ankle_Joint::Ankle_Joint(Joint_Motor_Id Motor_Id):Contraction(Clockwise)
+Ankle_Joint::Ankle_Joint(Joint_Motor_Id Motor_Id)
 {
 				usart.puts("\n					Ankle Created");
 	this->Joint_Motor=Motor(Motor_Id);

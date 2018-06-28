@@ -11,8 +11,10 @@
 .\objects\joint.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_armcc.h
 .\objects\joint.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\system_stm32f10x.h
 .\objects\joint.o: .\RTE\Device\STM32F103RB\stm32f10x_conf.h
-.\objects\joint.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
+.\objects\joint.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_bkp.h
 .\objects\joint.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h
+.\objects\joint.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
+.\objects\joint.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_pwr.h
 .\objects\joint.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_rcc.h
 .\objects\joint.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_tim.h
 .\objects\joint.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\StdPeriph_Driver\inc\stm32f10x_usart.h

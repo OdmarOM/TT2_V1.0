@@ -4,6 +4,7 @@ extern osMutexId mid_serial;
 extern osThreadId robot_thread_id;
 extern Linker Linker;
 
+
 int main()
 {
 	int command;
@@ -15,10 +16,17 @@ int main()
 	osKernelStart();
 	UsartUser A;
 	
-		while(1){			
-				
-		
+	
+	
+		while(1){		
+
+	/*while(!GPIO_ReadInputDataBit(Config_motor[4].LimCont.Puerto,Config_motor[4].LimCont.Pin))
+		{
+				usart.printf("\n\n limit");
+		}*/
+			
 	command=A.GetCommand();
+			
 	if(command==calibration) 
 		{
 			

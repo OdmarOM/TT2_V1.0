@@ -59,7 +59,29 @@ class Hip_Gate_Trajectory : public TrajectoryInterface
 			virtual void		Perform_Trajectory(JointInterface*);
 			virtual float		GetTrajectoryAngle(float){return 0;};
 			virtual int 		GetTrajectorySpeed(float){return 0;};
-			virtual ~Hip_Gate_Trajectory();
+			virtual ~Hip_Gate_Trajectory(){};
+
+};
+
+class Knee_Gate_Trajectory : public TrajectoryInterface
+{
+	public:	
+		Knee_Gate_Trajectory();
+			virtual void		Perform_Trajectory(JointInterface*);
+			virtual float		GetTrajectoryAngle(float){return 0;};
+			virtual int 		GetTrajectorySpeed(float){return 0;};
+			virtual ~Knee_Gate_Trajectory(){};
+
+};
+
+class Ankle_Gate_Trajectory : public TrajectoryInterface
+{
+	public:	
+		Ankle_Gate_Trajectory();
+			virtual void		Perform_Trajectory(JointInterface*);
+			virtual float		GetTrajectoryAngle(float){return 0;};
+			virtual int 		GetTrajectorySpeed(float){return 0;};
+			virtual ~Ankle_Gate_Trajectory(){};
 
 };
 

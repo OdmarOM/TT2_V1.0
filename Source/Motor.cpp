@@ -19,7 +19,7 @@ Motor::Motor(int Motornum)
 
 void Motor::Move_Step(int Type)
 {
-	if(Type==Clockwise)	{GPIO_ResetBits(Motor_Data.Dir.Puerto,Motor_Data.Dir.Pin);}
+	if(Type==AntiClockwise)	{GPIO_ResetBits(Motor_Data.Dir.Puerto,Motor_Data.Dir.Pin);}
 	else								{GPIO_SetBits(Motor_Data.Dir.Puerto,Motor_Data.Dir.Pin);}
 	
 		for(int i=0; i<4;i++){
