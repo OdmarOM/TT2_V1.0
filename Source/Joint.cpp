@@ -5,7 +5,7 @@
 extern SerialUSART2 usart;
 extern Linker Linker;
 
-void JointInterface::SetRelativePositionA_C(float Angle)
+void JointInterface::SetRelativePosition_C(float Angle)
 {	
 	int Number_of_Pulses=this->GetMotorPulses(Angle);
 	
@@ -21,18 +21,18 @@ void JointInterface::SetRelativePositionA_C(float Angle)
 	//usart.printf("%i",Number_of_Pulses);
 }
 
-void JointInterface::SetAbsolutePositionA_C(float Angle)
+void JointInterface::SetAbsolutePosition_C(float Angle)
 {	
 	int Relative_Angle=Angle-Linker.Get_Current_Position(this->Joint_Motor.Motor_Data.Id);
-	this->SetRelativePositionA_C(Relative_Angle);
+	this->SetRelativePosition_C(Relative_Angle);
 }
 //*********************************************************
 
-void JointInterface::SetRelativePositionA_V(float Angle)
+void JointInterface::SetRelativePosition_V(float Angle)
 {	
 	int Number_of_Pulses=this->GetMotorPulses(Angle);
 
-	float time_span_of_pulse=8.7; //in microseconds;
+	float time_span_of_pulse=35; //in microseconds;
 	
 	float delayus=((Linker.Dt_us-Number_of_Pulses*time_span_of_pulse)/Number_of_Pulses)*100; 
 	//we muliply by 100 to get houndreds of nanoseconds beacouse thats what each iteration of the for last
@@ -56,41 +56,23 @@ void JointInterface::SetRelativePositionA_V(float Angle)
 		this->Joint_Motor.Move_Step(Clockwise);
 	else
 		this->Joint_Motor.Move_Step(AntiClockwise);
-		for(int i=0; i<delayus*Linker.Get_Speed();i++){} 
+		for(int i=0; i<delayus;i++){} 
 	}
-	usart.printf("\n		%i",Number_of_Pulses);
 	Linker.Set_Current_Position(Linker.Current_Position[this->Joint_Motor.Motor_Data.Id]+Angle,this->Joint_Motor.Motor_Data.Id);
 	
 }
 
-void JointInterface::SetAbsolutePositionA_V(float Angle)
+void JointInterface::SetAbsolutePosition_V(float Angle)
 {	
-	int Relative_Angle=Angle-Linker.Get_Current_Position(this->Joint_Motor.Motor_Data.Id);
-	this->SetRelativePositionA_V(Relative_Angle);
+	float Relative_Angle=Angle-Linker.Get_Current_Position(this->Joint_Motor.Motor_Data.Id);
+	this->SetRelativePosition_V(Relative_Angle);
 }
 
-void JointInterface::SetRelativePositionL_C(float Distance)
-{
 
-}
-
-void JointInterface::SetAbsolutePositionL_C(float Distance)
-{
-
-}
-	
-void JointInterface::SetRelativePositionL_V(float Distance)
-{
-
-
-}
-
-void JointInterface::SetAbsolutePositionL_V(float Distance)
-{
-
-}
 //intervalo total / dt = speed
 //**************************************************
+//*************************************************************************
+
 
 Hip_Joint::Hip_Joint(Joint_Motor_Id Motor_Id)
 {
@@ -165,6 +147,7 @@ int Ankle_Joint::GetMotorPulses(float Angle)
 
 	return(abs(Motor_Pulses));
 }
+
 
 void Ankle_Joint::SetHome()
 {

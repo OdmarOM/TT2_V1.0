@@ -3,7 +3,7 @@
 #include "math.h"
 
 extern SerialUSART2 usart;
-extern float Current_Angles[6];
+extern Linker Linker;
 
 
 void TrajectoryInterface :: SetStartPoint(int Start_Point){
@@ -25,7 +25,7 @@ Home_Trajectory::Home_Trajectory()
 	usart.puts("\n					Home Trajectory Created");
 	this->Min_Trajectory_Point=0;
 	this->Max_Trajectory_Point=100;
-	this->StartPoint=0;
+	this->StartPoint=65;
 	this->Trajectory_Resolution=5;
 }
 
@@ -37,33 +37,11 @@ void Home_Trajectory::Perform_Trajectory(JointInterface* Joint)
 		//^^^ Codigo de control de los limit switch
 	while(!GPIO_ReadInputDataBit(Joint->Joint_Motor.Motor_Data.LimCont.Puerto,Joint->Joint_Motor.Motor_Data.LimCont.Pin))
 	{
-		Joint->SetRelativePositionA_C(-1);			
+		Joint->SetRelativePosition_C(-1);			
 	}
 	Joint->SetHome();
-	Joint->SetAbsolutePositionA_C(Joint->Anatomic_Position);
-		
-}
-
-float Home_Trajectory::GetTrajectoryAngle(float x)
-{
-	float Angle;
-	
-	Angle=-2*x;
-	
-	return(Angle);
 
 }
-
-int Home_Trajectory::GetTrajectorySpeed(float x)
-{
-	float Speed;
-	
-	Speed=2;
-	
-	return(Speed);
-
-}
-
 
 Home_Trajectory::~Home_Trajectory()
 {
@@ -78,12 +56,9 @@ Anatomic_Trajectory::Anatomic_Trajectory()
 }
 
 void Anatomic_Trajectory::Perform_Trajectory(JointInterface* Joint )
-{	int i=0;
-	while(i<3)
-	{
-	//this->Joint->Joint_Motor.Move_Step(Clockwise);
-		i++;
-	}
+{	
+	
+	Joint->SetAbsolutePosition_C(Joint->Anatomic_Position);
 }
 
 Anatomic_Trajectory::~Anatomic_Trajectory()
@@ -111,25 +86,69 @@ void Null_Trajectory::Perform_Trajectory(JointInterface* Joint)
 //******************************************************************************************************
 Hip_Gate_Trajectory::Hip_Gate_Trajectory()
 {
-	usart.printf("\n					Hip Trajectory Created");		
+	usart.printf("\n					Hip Trajectory Created");	
+
+	this->Min_Trajectory_Point=32;
+	this->Max_Trajectory_Point=97; //65 points of difference
+	this->StartPoint=65;	
 }
 
 
 void Hip_Gate_Trajectory::Perform_Trajectory(JointInterface* Joint)
 {
-	//(8582424063315823*x^23)/748288838313422294120286634350736906063837462003712 - (3038523271931747*x^24)/383123885216472214589586756787577295904684780545900544 - (6487034573941711*x^25)/12554203470773361527671578846415332832204710888928069025792 - (5338735268103517*x^22)/730750818665451459101842416358141509827966271488 + (3926044151054443*x^21)/1427247692705959881058285969449495136382746624 - (3736731284028393*x^20)/5575186299632655785383929568162090376495104 + (4580587865220479*x^19)/43556142965880123323311949751266331066368 - (5875161101120683*x^18)/680564733841876926926749214863536422912 - (4036253414031573*x^17)/10633823966279326983230456482242756608 + (5002057774337971*x^16)/20769187434139310514121985316880384 - (6739337681016175*x^15)/162259276829213363391578010288128 + (2931446095000419*x^14)/633825300114114700748351602688 - (3732208955771745*x^13)/9903520314283042199192993792 + (7247913929857687*x^12)/309485009821345068724781056 - (5450779513501953*x^11)/4835703278458516698824704 + (6370187422733199*x^10)/151115727451828646838272 - (5757578681613645*x^9)/4722366482869645213696 + (3979312255033985*x^8)/147573952589676412928 - (8259513285891531*x^7)/18446744073709551616 + (1566419184440997*x^6)/288230376151711744 - (6697548905049279*x^5)/144115188075855872 + (4820951436638917*x^4)/18014398509481984 - (9004403873458841*x^3)/9007199254740992 + (669475098322331*x^2)/281474976710656 - (44755390719461*x)/8796093022208 + 8272991776358171/70368744177664
+//pow(x,3.)
+	float y;
+	float x=this->StartPoint;
 	
+	y=-pow(6.1632,-25)*pow(x,15)+pow(7.8123,-22)*pow(x,14)-pow(4.4507,-19)*pow(x,13)+pow(1.5015,-16)*pow(x,12)-pow(3.3320,-14)*pow(x,11)+pow(5.1157,-12)*pow(x,10)-pow(5.5676,-10)*pow(x,9)+pow(4.3303,-8)*pow(x,8)-pow(2.3967,-6)*pow(x,7)+pow(9.2940,-5)*pow(x,6)-pow(2.4564,-3)*pow(x,5)+pow(4.2402,-2)*pow(x,4)-pow(4.4661,-1)*pow(x,3)+2.5297*pow(x,2)-6.8272*x+24.843;
+	Joint->SetAbsolutePosition_C(y);
+	
+	while(!Linker.Is_Performing())
+	{} //wait until starts perfomring
+		
+	while(Linker.Is_Performing())
+	{
+		while(!Linker.Is_Paused())
+		{	x+=Linker.Sampling;
+			if(x>this->Max_Trajectory_Point)	x=this->Min_Trajectory_Point;
+			
+			y=-pow(6.1632,-25)*pow(x,15)+pow(7.8123,-22)*pow(x,14)-pow(4.4507,-19)*pow(x,13)+pow(1.5015,-16)*pow(x,12)-pow(3.3320,-14)*pow(x,11)+pow(5.1157,-12)*pow(x,10)-pow(5.5676,-10)*pow(x,9)+pow(4.3303,-8)*pow(x,8)-pow(2.3967,-6)*pow(x,7)+pow(9.2940,-5)*pow(x,6)-pow(2.4564,-3)*pow(x,5)+pow(4.2402,-2)*pow(x,4)-pow(4.4661,-1)*pow(x,3)+2.5297*pow(x,2)-6.8272*x+24.843;
+			Joint->SetAbsolutePosition_V(y);
+		}
+	}
 }
 //****************************************************************************************************
 Knee_Gate_Trajectory::Knee_Gate_Trajectory()
 {
-	usart.printf("\n					Knee Trajectory Created");		
+	usart.printf("\n					Knee Trajectory Created");	
+
+	this->Min_Trajectory_Point=25;
+	this->Max_Trajectory_Point=90; //65 points of difference
+	this->StartPoint=71;		
 }
 
 
 void Knee_Gate_Trajectory::Perform_Trajectory(JointInterface* Joint)
 {
+		float y;
+	float x=this->StartPoint;
 	
+	y=-pow(1.2742,-23)*pow(x,15)+pow(1.3881,-20)*pow(x,14)-pow(6.8125,-18)*pow(x,13)+pow(1.9889,-15)*pow(x,12)-pow(3.8419,-13)*pow(x,11)+pow(5.1675,-11)*pow(x,10)-pow(4.9605,-9)*pow(x,9)+pow(3.4274,-7)*pow(x,8)-pow(1.6985,-5)*pow(x,7)+pow(5.9502,-4)*pow(x,6)-pow(1.4358,-2)*pow(x,5)+pow(2.2914,-1)*pow(x,4)-2.2682*pow(x,3)+12.436*pow(x,2)-29.648*x+25.153;
+	Joint->SetAbsolutePosition_C(y);
+	
+	while(!Linker.Is_Performing())
+	{} //wait until starts perfomring
+		
+	while(Linker.Is_Performing())
+	{
+		while(!Linker.Is_Paused())
+		{	x+=Linker.Sampling;
+			if(x>this->Max_Trajectory_Point)	x=this->Min_Trajectory_Point;
+			
+			y=-pow(1.2742,-23)*pow(x,15)+pow(1.3881,-20)*pow(x,14)-pow(6.8125,-18)*pow(x,13)+pow(1.9889,-15)*pow(x,12)-pow(3.8419,-13)*pow(x,11)+pow(5.1675,-11)*pow(x,10)-pow(4.9605,-9)*pow(x,9)+pow(3.4274,-7)*pow(x,8)-pow(1.6985,-5)*pow(x,7)+pow(5.9502,-4)*pow(x,6)-pow(1.4358,-2)*pow(x,5)+pow(2.2914,-1)*pow(x,4)-2.2682*pow(x,3)+12.436*pow(x,2)-29.648*x+25.153;
+			Joint->SetAbsolutePosition_V(y);
+		}
+	}
 	
 }
 //****************************************************************************************************
@@ -141,7 +160,25 @@ Ankle_Gate_Trajectory::Ankle_Gate_Trajectory()
 
 void Ankle_Gate_Trajectory::Perform_Trajectory(JointInterface* Joint)
 {
+		float y;
+	float x=this->StartPoint;
 	
+	y=-pow(1.9493,-23)*pow(x,15)+pow(1.9219,-20)*pow(x,14)-pow(8.5355,-18)*pow(x,13)+pow(2.2548,-15)*pow(x,12)-pow(3.9398,-13)*pow(x,11)+pow(4.7903,-11)*pow(x,10)-pow(4.1510,-9)*pow(x,9)+pow(2.5825,-7)*pow(x,8)-pow(1.1472,-5)*pow(x,7)+pow(3.5742,-4)*pow(x,6)-pow(7.5643,-3)*pow(x,5)+pow(1.0321,-1)*pow(x,4)-pow(8.3086,-1)*pow(x,3)+3.3186*pow(x,2)-4.5541*x+ 97.195;
+	Joint->SetAbsolutePosition_C(y);
+	
+	while(!Linker.Is_Performing())
+	{} //wait until starts perfomring
+		
+	while(Linker.Is_Performing())
+	{
+		while(!Linker.Is_Paused())
+		{	x+=Linker.Sampling;
+			if(x>this->Max_Trajectory_Point)	x=this->Min_Trajectory_Point;
+			
+			y=-pow(1.9493,-23)*pow(x,15)+pow(1.9219,-20)*pow(x,14)-pow(8.5355,-18)*pow(x,13)+pow(2.2548,-15)*pow(x,12)-pow(3.9398,-13)*pow(x,11)+pow(4.7903,-11)*pow(x,10)-pow(4.1510,-9)*pow(x,9)+pow(2.5825,-7)*pow(x,8)-pow(1.1472,-5)*pow(x,7)+pow(3.5742,-4)*pow(x,6)-pow(7.5643,-3)*pow(x,5)+pow(1.0321,-1)*pow(x,4)-pow(8.3086,-1)*pow(x,3)+3.3186*pow(x,2)-4.5541*x+ 97.195;
+			Joint->SetAbsolutePosition_V(y);
+		}
+	}
 	
 }
 //****************************************************************************************************

@@ -22,8 +22,8 @@ class Home_Trajectory: public TrajectoryInterface
 public:	
 		Home_Trajectory();
 			virtual void 		Perform_Trajectory(JointInterface*);
-			virtual float		GetTrajectoryAngle(float);
-			virtual int 		GetTrajectorySpeed(float);
+			virtual float		GetTrajectoryAngle(float){return 0;};
+			virtual int 		GetTrajectorySpeed(float){return 0;};
 			virtual ~Home_Trajectory();
 	
 

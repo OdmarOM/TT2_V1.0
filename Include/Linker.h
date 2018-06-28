@@ -11,7 +11,7 @@ class Linker
 		bool 	Pause;
 		bool 	Performing;
 		int 	Dt_us;
-		int 	Sampling;
+		float 	Sampling;
 
 		Linker();
 		void		Set_Current_State(int);
@@ -26,6 +26,7 @@ class Linker
 		void		Increment_Speed(void);
 		void		Decrement_Speed(void);
 		bool		Is_Paused(void);
+		bool		Is_Performing(void);
 };
 
 

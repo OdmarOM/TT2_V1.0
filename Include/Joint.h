@@ -10,14 +10,10 @@ class JointInterface
 	public:
 		int Anatomic_Position;
 		Motor Joint_Motor;
-		virtual void 	SetAbsolutePositionA_C(float);
-		virtual void 	SetRelativePositionA_C(float);
-		virtual void 	SetAbsolutePositionA_V(float);
-		virtual void 	SetRelativePositionA_V(float);
-		virtual void 	SetAbsolutePositionL_C(float);
-		virtual void 	SetRelativePositionL_C(float);
-		virtual void 	SetAbsolutePositionL_V(float);
-		virtual void 	SetRelativePositionL_V(float);
+		virtual void 	SetAbsolutePosition_C(float);
+		virtual void 	SetRelativePosition_C(float);
+		virtual void 	SetAbsolutePosition_V(float);
+		virtual void 	SetRelativePosition_V(float);
 		virtual int 	GetMotorPulses(float)=0;
 		virtual void 	SetHome(void)=0;
 		virtual ~JointInterface(){};

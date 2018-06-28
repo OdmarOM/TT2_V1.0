@@ -5,8 +5,8 @@ extern osMutexId mid_serial;
 
 Linker::Linker()
 {
-	this->Sampling=650;
-	this->Dt_us=1000000/Sampling;
+	this->Sampling=0.002;
+	this->Dt_us=35000;
 	
 	this->Current_Command=0;
 	this->Speed=2;
@@ -78,6 +78,11 @@ void	Linker::Start_Routine(void)
 bool Linker::Is_Paused(void)
 {
 	return(this->Pause);
+}
+
+bool Linker::Is_Performing(void)
+{
+	return(this->Performing);
 }
 
 void Linker::Increment_Speed()
