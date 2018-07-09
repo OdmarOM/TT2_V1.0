@@ -53,3 +53,5 @@
 .\objects\trajectory.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\trajectory.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\objects\trajectory.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\trajectory.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\RTOS\RTX\INC\cmsis_os.h
+.\objects\trajectory.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h

@@ -15,7 +15,7 @@ void JointInterface::SetRelativePosition_C(float Angle)
 		this->Joint_Motor.Move_Step(Clockwise);
 	else
 		this->Joint_Motor.Move_Step(AntiClockwise);
-		for(int i=0; i<700;i++){} 
+		for(int i=0; i<800;i++){} 
 	}
 	Linker.Set_Current_Position(Linker.Current_Position[this->Joint_Motor.Motor_Data.Id]+Angle,this->Joint_Motor.Motor_Data.Id);
 	//usart.printf("%i",Number_of_Pulses);
@@ -30,11 +30,11 @@ void JointInterface::SetAbsolutePosition_C(float Angle)
 
 void JointInterface::SetRelativePosition_V(float Angle)
 {	
-	int Number_of_Pulses=this->GetMotorPulses(Angle);
+		int Number_of_Pulses=this->GetMotorPulses(Angle);
 
-	float time_span_of_pulse=35; //in microseconds;
+	//float time_span_of_pulse=35; //in microseconds;
 	
-	float delayus=((Linker.Dt_us-Number_of_Pulses*time_span_of_pulse)/Number_of_Pulses)*100; 
+	/*int delayus=((Linker.Dt_us-Number_of_Pulses*time_span_of_pulse)/Number_of_Pulses)+1; 
 	//we muliply by 100 to get houndreds of nanoseconds beacouse thats what each iteration of the for last
 			
 	if(delayus<0)
@@ -48,7 +48,14 @@ void JointInterface::SetRelativePosition_V(float Angle)
 			}
 			else
 			{
-			}
+			}*/
+			
+	float in_min=0; //the inputs represent the values from the graph
+								float in_max=5*(Linker.Proportion);
+								float out_min=40;// the outputs are the values we are mapping to and corresponds to the
+								float out_max=0;// time of the delay, less delay faster speed.
+							
+								int delayus=(Angle - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;	
 			
 	for(int i=0;i<=Number_of_Pulses;i++)
 	{
@@ -106,6 +113,7 @@ Knee_Joint::Knee_Joint(Joint_Motor_Id Motor_Id)
 			usart.puts("\n					Knee Created");
 	this->Joint_Motor=Motor(Motor_Id);
 	this->Anatomic_Position=0;
+	
 }
 
 int Knee_Joint::GetMotorPulses(float Angle)
@@ -132,7 +140,7 @@ Ankle_Joint::Ankle_Joint(Joint_Motor_Id Motor_Id)
 {
 				usart.puts("\n					Ankle Created");
 	this->Joint_Motor=Motor(Motor_Id);
-	this->Anatomic_Position=90;
+	this->Anatomic_Position=0;
 }
 
 int Ankle_Joint::GetMotorPulses(float Angle)
@@ -152,7 +160,7 @@ int Ankle_Joint::GetMotorPulses(float Angle)
 void Ankle_Joint::SetHome()
 {
 
-Linker.Set_Current_Position(70,this->Joint_Motor.Motor_Data.Id);
+Linker.Set_Current_Position(-37,this->Joint_Motor.Motor_Data.Id);
 }
 //section to calculate the delay based on the velocity graph of the trajectory
 								

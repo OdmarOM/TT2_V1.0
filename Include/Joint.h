@@ -9,6 +9,7 @@ class JointInterface
 {
 	public:
 		int Anatomic_Position;
+		float offset;
 		Motor Joint_Motor;
 		virtual void 	SetAbsolutePosition_C(float);
 		virtual void 	SetRelativePosition_C(float);

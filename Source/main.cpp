@@ -19,12 +19,13 @@ int main()
 	
 	
 		while(1){		
-
-	/*while(!GPIO_ReadInputDataBit(Config_motor[4].LimCont.Puerto,Config_motor[4].LimCont.Pin))
+/*
+	while(!GPIO_ReadInputDataBit(Config_motor[1].LimCont.Puerto,Config_motor[1].LimCont.Pin))
 		{
 				usart.printf("\n\n limit");
 		}*/
-			
+	
+		
 	command=A.GetCommand();
 			
 	if(command==calibration) 
@@ -34,15 +35,26 @@ int main()
 	else if(command==pause) 
 		{
 			
-		usart.printf("\n\n apagado");
+		usart.printf("\n\n pausado");
+			
+			Linker.Pause_Routine();
+		}
+	else if(command==start) 
+		{
+			
+		usart.printf("\n\n iniciado");
+			
+			Linker.Start_Routine();
 		}
 	else if(command==gate) 
 		{ 
 			osSignalSet(robot_thread_id, 0x01);
+			usart.printf("\n\n m");
 		}
 		else 
 			{	
 			}
+			
 	}
 }	
 

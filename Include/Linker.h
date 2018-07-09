@@ -4,14 +4,16 @@
 class Linker
 {
 	public:
-		int 	Current_State;
-		int 	Current_Command;
-		float Speed;
-		float Current_Position[6];
-		bool 	Pause;
-		bool 	Performing;
-		int 	Dt_us;
+		int 		Current_State;
+		int 		Current_Command;
+		float 	Speed;
+		float 	Current_Position[6];
+		bool 		Pause;
+		bool 		Performing;
+		int 		Dt_us;
 		float 	Sampling;
+		int 		ready[6];
+		float 	Proportion;
 
 		Linker();
 		void		Set_Current_State(int);

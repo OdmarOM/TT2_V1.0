@@ -5,8 +5,14 @@ extern osMutexId mid_serial;
 
 Linker::Linker()
 {
-	this->Sampling=0.002;
-	this->Dt_us=35000;
+	this->Sampling=.2;
+	this->Dt_us=10000;
+	
+	for(int i=0;i<6;i++){
+	this->ready[i]=0;
+	}
+	
+	this->Proportion=0.4;
 	
 	this->Current_Command=0;
 	this->Speed=2;
@@ -16,6 +22,7 @@ Linker::Linker()
 	this->Current_Position[i]=0;
 	}
 	this->Pause=true;
+	this->Performing=true;
 }
 
 void 	Linker::Set_Current_State(int Command)

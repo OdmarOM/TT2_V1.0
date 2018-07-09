@@ -28,16 +28,14 @@ Project File Date:  06/21/2018
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
 compiling main.cpp...
-compiling Routine.cpp...
 compiling Robot.cpp...
+compiling Routine.cpp...
 compiling OsObjects.cpp...
-compiling Phase.cpp...
 compiling Trajectory.cpp...
-compiling Linker.cpp...
-compiling Motor.cpp...
+compiling Phase.cpp...
 compiling Joint.cpp...
 linking...
-Program Size: Code=38608 RO-data=4044 RW-data=248 ZI-data=18952  
+Program Size: Code=45044 RO-data=4140 RW-data=248 ZI-data=18976  
 ".\Objects\Ramh.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -80,19 +78,19 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.1.1
 
    * Component: ARM::CMSIS:RTOS:Keil RTX:4.81.1
-      Library file:  CMSIS\RTOS\RTX\LIB\ARM\RTX_CM3.lib
-      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\main.c
-      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\MailQueue.c
       Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\MsgQueue.c
-      Include file:  CMSIS\RTOS\RTX\INC\cmsis_os.h
-      Include file:  CMSIS\RTOS\RTX\UserCodeTemplates\osObjects.h
-      Source file:   CMSIS\RTOS\RTX\Templates\RTX_Conf_CM.c
       Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\MemPool.c
-      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Timer.c
-      Source file:   CMSIS\RTOS\RTX\SRC\ARM\SVC_Table.s
       Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Mutex.c
       Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Semaphore.c
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Timer.c
+      Source file:   CMSIS\RTOS\RTX\SRC\ARM\SVC_Table.s
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\main.c
+      Include file:  CMSIS\RTOS\RTX\INC\cmsis_os.h
+      Source file:   CMSIS\RTOS\RTX\Templates\RTX_Conf_CM.c
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\MailQueue.c
+      Include file:  CMSIS\RTOS\RTX\UserCodeTemplates\osObjects.h
       Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Thread.c
+      Library file:  CMSIS\RTOS\RTX\LIB\ARM\RTX_CM3.lib
 
    * Component: Keil::Device:GPIO:1.3
       Include file:  RTE_Driver\GPIO_STM32F10x.h
@@ -101,19 +99,19 @@ Package Vendor: Keil
    * Component: Keil::Device:Startup:1.0.0
       Source file:   Device\Source\ARM\STM32F1xx_OPT.s
       Source file:   Device\Source\ARM\startup_stm32f10x_md.s
-      Include file:  RTE_Driver\Config\RTE_Device.h
       Source file:   Device\Source\system_stm32f10x.c
+      Include file:  RTE_Driver\Config\RTE_Device.h
 
    * Component: Keil::Device:StdPeriph Drivers:BKP:3.5.0
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_bkp.h
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_bkp.c
 
    * Component: Keil::Device:StdPeriph Drivers:Framework:3.5.1
-      Include file:  Device\StdPeriph_Driver\templates\stm32f10x_it.h
-      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_conf.h
-      Source file:   Device\StdPeriph_Driver\src\misc.c
-      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_it.c
       Include file:  Device\StdPeriph_Driver\inc\misc.h
+      Source file:   Device\StdPeriph_Driver\src\misc.c
+      Include file:  Device\StdPeriph_Driver\templates\stm32f10x_it.h
+      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_it.c
+      Source file:   Device\StdPeriph_Driver\templates\stm32f10x_conf.h
 
    * Component: Keil::Device:StdPeriph Drivers:GPIO:3.5.0
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_gpio.h
@@ -124,16 +122,16 @@ Package Vendor: Keil
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_pwr.c
 
    * Component: Keil::Device:StdPeriph Drivers:RCC:3.5.0
-      Source file:   Device\StdPeriph_Driver\src\stm32f10x_rcc.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_rcc.h
+      Source file:   Device\StdPeriph_Driver\src\stm32f10x_rcc.c
 
    * Component: Keil::Device:StdPeriph Drivers:TIM:3.5.0
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_tim.c
       Include file:  Device\StdPeriph_Driver\inc\stm32f10x_tim.h
 
    * Component: Keil::Device:StdPeriph Drivers:USART:3.5.0
-      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_usart.h
       Source file:   Device\StdPeriph_Driver\src\stm32f10x_usart.c
+      Include file:  Device\StdPeriph_Driver\inc\stm32f10x_usart.h
 Build Time Elapsed:  00:00:03
 </pre>
 </body>

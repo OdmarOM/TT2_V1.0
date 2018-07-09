@@ -1,9 +1,12 @@
 #include "Trajectory.h"
 #include "Usart.h"
 #include "math.h"
+#include "cmsis_os.h"
 
 extern SerialUSART2 usart;
 extern Linker Linker;
+extern osThreadId Routine_Thread_Id;
+
 
 
 void TrajectoryInterface :: SetStartPoint(int Start_Point){
@@ -88,19 +91,28 @@ Hip_Gate_Trajectory::Hip_Gate_Trajectory()
 {
 	usart.printf("\n					Hip Trajectory Created");	
 
-	this->Min_Trajectory_Point=32;
-	this->Max_Trajectory_Point=97; //65 points of difference
-	this->StartPoint=65;	
+	this->Min_Trajectory_Point=1;
+	this->Max_Trajectory_Point=64; //65 points of difference
+	this->StartPoint=1;	
 }
 
 
 void Hip_Gate_Trajectory::Perform_Trajectory(JointInterface* Joint)
 {
+	
 //pow(x,3.)
 	float y;
 	float x=this->StartPoint;
+	float mean=33,std=18.9;
+	float z=(x-mean)/std;
 	
-	y=-pow(6.1632,-25)*pow(x,15)+pow(7.8123,-22)*pow(x,14)-pow(4.4507,-19)*pow(x,13)+pow(1.5015,-16)*pow(x,12)-pow(3.3320,-14)*pow(x,11)+pow(5.1157,-12)*pow(x,10)-pow(5.5676,-10)*pow(x,9)+pow(4.3303,-8)*pow(x,8)-pow(2.3967,-6)*pow(x,7)+pow(9.2940,-5)*pow(x,6)-pow(2.4564,-3)*pow(x,5)+pow(4.2402,-2)*pow(x,4)-pow(4.4661,-1)*pow(x,3)+2.5297*pow(x,2)-6.8272*x+24.843;
+	//y =-( 0.0033*pow(x,5) - 0.1278*pow(x,4) + 1.665*pow(x,3) - 8.2408*pow(x,2) + 13.711*x - 7.2308)+10;
+	//y = -0.0022*pow(x,5) + 0.0876*pow(x,4) - 1.3242*pow(x,3) + 8.4255*pow(x,2) - 16.734*x + 8.5734;
+	//y = 8*pow(10.,-9)*pow(x,6) - 3*pow(10.,-6)*pow(x,5) + 0.0004*pow(x,4) - 0.023*pow(x,3) + 0.6019*pow(x,2) - 4.5772*x - 7.1037;
+	//y=-6.1632*pow(10.,-25)*pow(x,15)+7.8123*pow(10.,-22)*pow(x,14)-4.4507*pow(10.,-19)*pow(x,13)+1.5015*pow(10.,-16)*pow(x,12)-3.3320*pow(10.,-14)*pow(x,11)+5.1157*pow(10.,-12)*pow(x,10)-5.5676*pow(10.,-10)*pow(x,9)+4.3303*pow(10.,-8)*pow(x,8)-2.3967*pow(10.,-6)*pow(x,7)+9.2940*pow(10.,-5)*pow(x,6)-2.4564*pow(10.,-3)*pow(x,5)+4.2402*pow(10.,-2)*pow(x,4)-4.4661*pow(10.,-1)*pow(x,3)+2.5297*pow(x,2)-6.8272*x+24.843;
+	
+		y=-0.3188*pow(z,14)+0.3170*pow(z,13)+3.6456*pow(z,12)-2.4764*pow(z,11)-17.1076*pow(z,10)+5.7663*pow(z,9)+42.6433*pow(z,8)+1.4223*pow(z,7)-59.3629*pow(z,6)-26.2141*pow(z,5)+36.0392*pow(z,4)+39.8432*pow(z,3)+18.6035*pow(z,2)-18.0690*z-13.4381;
+		y=y*Linker.Proportion;
 	Joint->SetAbsolutePosition_C(y);
 	
 	while(!Linker.Is_Performing())
@@ -109,11 +121,20 @@ void Hip_Gate_Trajectory::Perform_Trajectory(JointInterface* Joint)
 	while(Linker.Is_Performing())
 	{
 		while(!Linker.Is_Paused())
-		{	x+=Linker.Sampling;
+		{	
+			if(Linker.ready[Joint->Joint_Motor.Motor_Data.Id]==1)
+			{Linker.ready[Joint->Joint_Motor.Motor_Data.Id]=0;
+			x+=Linker.Sampling;
 			if(x>this->Max_Trajectory_Point)	x=this->Min_Trajectory_Point;
-			
-			y=-pow(6.1632,-25)*pow(x,15)+pow(7.8123,-22)*pow(x,14)-pow(4.4507,-19)*pow(x,13)+pow(1.5015,-16)*pow(x,12)-pow(3.3320,-14)*pow(x,11)+pow(5.1157,-12)*pow(x,10)-pow(5.5676,-10)*pow(x,9)+pow(4.3303,-8)*pow(x,8)-pow(2.3967,-6)*pow(x,7)+pow(9.2940,-5)*pow(x,6)-pow(2.4564,-3)*pow(x,5)+pow(4.2402,-2)*pow(x,4)-pow(4.4661,-1)*pow(x,3)+2.5297*pow(x,2)-6.8272*x+24.843;
+	
+			z=(x-mean)/std;
+				
+			y=-0.3188*pow(z,14)+0.3170*pow(z,13)+3.6456*pow(z,12)-2.4764*pow(z,11)-17.1076*pow(z,10)+5.7663*pow(z,9)+42.6433*pow(z,8)+1.4223*pow(z,7)-59.3629*pow(z,6)-26.2141*pow(z,5)+36.0392*pow(z,4)+39.8432*pow(z,3)+18.6035*pow(z,2)-18.0690*z-13.4381;
+			y=y*Linker.Proportion;
 			Joint->SetAbsolutePosition_V(y);
+			
+			osSignalSet(Routine_Thread_Id,0x01);
+			}
 		}
 	}
 }
@@ -122,19 +143,23 @@ Knee_Gate_Trajectory::Knee_Gate_Trajectory()
 {
 	usart.printf("\n					Knee Trajectory Created");	
 
-	this->Min_Trajectory_Point=25;
-	this->Max_Trajectory_Point=90; //65 points of difference
-	this->StartPoint=71;		
+	this->Min_Trajectory_Point=1;
+	this->Max_Trajectory_Point=64; //65 points of difference
+	this->StartPoint=1;		
 }
 
 
 void Knee_Gate_Trajectory::Perform_Trajectory(JointInterface* Joint)
 {
+	
 		float y;
 	float x=this->StartPoint;
+	float mean=33,std=18.9;
+	float z=(x-mean)/std;
 	
-	y=-pow(1.2742,-23)*pow(x,15)+pow(1.3881,-20)*pow(x,14)-pow(6.8125,-18)*pow(x,13)+pow(1.9889,-15)*pow(x,12)-pow(3.8419,-13)*pow(x,11)+pow(5.1675,-11)*pow(x,10)-pow(4.9605,-9)*pow(x,9)+pow(3.4274,-7)*pow(x,8)-pow(1.6985,-5)*pow(x,7)+pow(5.9502,-4)*pow(x,6)-pow(1.4358,-2)*pow(x,5)+pow(2.2914,-1)*pow(x,4)-2.2682*pow(x,3)+12.436*pow(x,2)-29.648*x+25.153;
-	Joint->SetAbsolutePosition_C(y);
+			y=-1.1546*pow(z,14)-1.0963*pow(z,13)+12.7896*pow(z,12)+12.3534*pow(z,11)-54.4391*pow(z,10)-56.5627*pow(z,9)+110.0934*pow(z,8)+134.4479*pow(z,7)-96.2309*pow(z,6)-168.9311*pow(z,5)-10.2798*pow(z,4)+83.5419*pow(z,3)+67.8062*pow(z,2)+18.2441*z+6.0145;
+			y=(y+Joint->offset)*Linker.Proportion;
+		Joint->SetAbsolutePosition_C(y);
 	
 	while(!Linker.Is_Performing())
 	{} //wait until starts perfomring
@@ -142,11 +167,20 @@ void Knee_Gate_Trajectory::Perform_Trajectory(JointInterface* Joint)
 	while(Linker.Is_Performing())
 	{
 		while(!Linker.Is_Paused())
-		{	x+=Linker.Sampling;
-			if(x>this->Max_Trajectory_Point)	x=this->Min_Trajectory_Point;
+		{
 			
-			y=-pow(1.2742,-23)*pow(x,15)+pow(1.3881,-20)*pow(x,14)-pow(6.8125,-18)*pow(x,13)+pow(1.9889,-15)*pow(x,12)-pow(3.8419,-13)*pow(x,11)+pow(5.1675,-11)*pow(x,10)-pow(4.9605,-9)*pow(x,9)+pow(3.4274,-7)*pow(x,8)-pow(1.6985,-5)*pow(x,7)+pow(5.9502,-4)*pow(x,6)-pow(1.4358,-2)*pow(x,5)+pow(2.2914,-1)*pow(x,4)-2.2682*pow(x,3)+12.436*pow(x,2)-29.648*x+25.153;
-			Joint->SetAbsolutePosition_V(y);
+			if(Linker.ready[Joint->Joint_Motor.Motor_Data.Id]==1)
+			{	Linker.ready[Joint->Joint_Motor.Motor_Data.Id]=0;
+					x+=Linker.Sampling;
+					if(x>this->Max_Trajectory_Point)	x=this->Min_Trajectory_Point;
+					
+					z=(x-mean)/std;
+					
+					y=-1.1546*pow(z,14)-1.0963*pow(z,13)+12.7896*pow(z,12)+12.3534*pow(z,11)-54.4391*pow(z,10)-56.5627*pow(z,9)+110.0934*pow(z,8)+134.4479*pow(z,7)-96.2309*pow(z,6)-168.9311*pow(z,5)-10.2798*pow(z,4)+83.5419*pow(z,3)+67.8062*pow(z,2)+18.2441*z+6.0145;
+					y=(y+Joint->offset)*Linker.Proportion;
+					Joint->SetAbsolutePosition_V(y);
+				osSignalSet(Routine_Thread_Id,0x01);
+			}
 		}
 	}
 	
@@ -154,7 +188,11 @@ void Knee_Gate_Trajectory::Perform_Trajectory(JointInterface* Joint)
 //****************************************************************************************************
 Ankle_Gate_Trajectory::Ankle_Gate_Trajectory()
 {
-	usart.printf("\n					Ankle Trajectory Created");		
+	usart.printf("\n					Ankle Trajectory Created");	
+
+	this->Min_Trajectory_Point=1;
+	this->Max_Trajectory_Point=64; //65 points of difference
+	this->StartPoint=1;	
 }
 
 
@@ -162,22 +200,33 @@ void Ankle_Gate_Trajectory::Perform_Trajectory(JointInterface* Joint)
 {
 		float y;
 	float x=this->StartPoint;
+	float mean=33,std=18.9;
+	float z=(x-mean)/std;
 	
-	y=-pow(1.9493,-23)*pow(x,15)+pow(1.9219,-20)*pow(x,14)-pow(8.5355,-18)*pow(x,13)+pow(2.2548,-15)*pow(x,12)-pow(3.9398,-13)*pow(x,11)+pow(4.7903,-11)*pow(x,10)-pow(4.1510,-9)*pow(x,9)+pow(2.5825,-7)*pow(x,8)-pow(1.1472,-5)*pow(x,7)+pow(3.5742,-4)*pow(x,6)-pow(7.5643,-3)*pow(x,5)+pow(1.0321,-1)*pow(x,4)-pow(8.3086,-1)*pow(x,3)+3.3186*pow(x,2)-4.5541*x+ 97.195;
-	Joint->SetAbsolutePosition_C(y);
-	
+		y=90-(-3.1174*pow(z,14)-0.5496*pow(z,13)+33.7126*pow(z,12)+7.0378*pow(z,11)-143.5784*pow(z,10)-38.2535*pow(z,9)+301.4557*pow(z,8)+107.9351*pow(z,7)-312.4248*pow(z,6)-154.1425*pow(z,5)+123.4064*pow(z,4)+86.8645*pow(z,3)+14.3427*pow(z,2)+0.8635*z+87.6623);
+		y=y*Linker.Proportion;
+		Joint->SetAbsolutePosition_C(y);
+		
 	while(!Linker.Is_Performing())
 	{} //wait until starts perfomring
 		
 	while(Linker.Is_Performing())
 	{
-		while(!Linker.Is_Paused())
-		{	x+=Linker.Sampling;
-			if(x>this->Max_Trajectory_Point)	x=this->Min_Trajectory_Point;
-			
-			y=-pow(1.9493,-23)*pow(x,15)+pow(1.9219,-20)*pow(x,14)-pow(8.5355,-18)*pow(x,13)+pow(2.2548,-15)*pow(x,12)-pow(3.9398,-13)*pow(x,11)+pow(4.7903,-11)*pow(x,10)-pow(4.1510,-9)*pow(x,9)+pow(2.5825,-7)*pow(x,8)-pow(1.1472,-5)*pow(x,7)+pow(3.5742,-4)*pow(x,6)-pow(7.5643,-3)*pow(x,5)+pow(1.0321,-1)*pow(x,4)-pow(8.3086,-1)*pow(x,3)+3.3186*pow(x,2)-4.5541*x+ 97.195;
-			Joint->SetAbsolutePosition_V(y);
-		}
+			while(!Linker.Is_Paused())
+			{
+			if(Linker.ready[Joint->Joint_Motor.Motor_Data.Id]==1)
+			{	Linker.ready[Joint->Joint_Motor.Motor_Data.Id]=0;
+				x+=Linker.Sampling;
+				if(x>this->Max_Trajectory_Point)	x=this->Min_Trajectory_Point;
+				
+					z=(x-mean)/std;
+				
+					y=90-(-3.1174*pow(z,14)-0.5496*pow(z,13)+33.7126*pow(z,12)+7.0378*pow(z,11)-143.5784*pow(z,10)-38.2535*pow(z,9)+301.4557*pow(z,8)+107.9351*pow(z,7)-312.4248*pow(z,6)-154.1425*pow(z,5)+123.4064*pow(z,4)+86.8645*pow(z,3)+14.3427*pow(z,2)+0.8635*z+87.6623);
+					y=y*Linker.Proportion;
+				Joint->SetAbsolutePosition_V(y);
+				osSignalSet(Routine_Thread_Id,0x01);
+			}
+		}		
 	}
 	
 }
